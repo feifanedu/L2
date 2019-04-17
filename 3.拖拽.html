@@ -49,14 +49,19 @@
 			var tmp;
 
 			for(var i = 0; i < box.length; i++) {
-				box[i].ondragstart = function() {
+				box[i].ondragstart = function(e) {
+					e.dataTransfer.setData('msg','hello');
 					tmp = this;
-					console.log("拖拽开始")
+					console.log("拖拽开始");
+					console.log(e.dataTransfer.getData('msg'));
+					e.dataTransfer.effectAllowed = "all";
+					e.dataTransfer.dropEffect = "move";
 				}
 
-				box[i].ondragend = function() {
+				box[i].ondragend = function(e) {
 					tmp = null;
-					console.log("拖拽结束")
+					console.log("拖拽结束");
+					
 				}
 			}
 
@@ -77,7 +82,7 @@
 				console.log('松手');
 				if(tmp!=null)
 					this.appendChild(tmp);
-				
+				console.log(e.dataTransfer.files);
 			}
 		</script>
 	</body>
