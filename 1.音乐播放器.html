@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			.music{
+				width: 320px;
+				height: 80px;
+				background-color: grey;
+				padding: 20px;
+			}
+			.music>div{
+				float: left;
+			}
+			
+			.music .image{}
+			.music .image img{
+				width: 80px;
+				height: 80px;
+				border-radius: 40px;
+				-webkit-animation: rotate 5s 0s linear infinite;
+				-webkit-animation-play-state: paused;
+			}
+			
+			.btn-group{
+				padding-top:27px;
+				padding-left: 20px;
+			}
+			
+			.btn-group .btn{
+				float: left;
+				margin-right: 10px;
+				background-image: url(images/ico_btn_player.png);
+				background-repeat: no-repeat;
+			}
+			.btn-prev{
+				position: relative;
+				top:3px;
+				width:16px;
+				height:20px;
+				background-position:-90px 0;
+			}
+			.btn-next{
+				position: relative;
+				top:3px;
+				width:16px;
+				height:20px;
+				background-position:-90px -30px;
+			}
+			
+			.btn-play{
+				width:22px;
+				height:26px;
+				background-position:-90px -60px;
+			}
+			
+			.btn-pause{
+				width:22px;
+				height:26px;
+				background-position:-90px -90px;
+			}
+			
+			.music-info{
+				float: right;
+				padding-top: 26px;
+			}
+			.music-info p{
+				text-align: right;
+				margin: 0px;
+			}
+			
+			@-webkit-keyframes rotate{
+				from{
+					-webkit-transform: rotate(0deg);
+				}
+				to{
+					-webkit-transform: rotate(360deg);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<!--
+			1. 从上往下
+			2. 从左往右
+			3. 从外往里
+			4. 色块定位
+		-->
+		<div class="music">
+			
+			<div class="image">
+				<img src="images/kuaizixiongdi.jpeg">
+			</div>
+			<div class="btn-group">
+				<div class="btn btn-prev"></div>
+				<div class="btn btn-play"></div>
+				<div class="btn btn-next"></div>
+			</div>
+			<div class="music-info">
+				<input type="range" name="" id="" min="0" max="100" value="0" value="" />
+				<p>00:00/00:00</p>
+			</div>
+			<audio src="media/小苹果.mp3" id="music" ></audio>
+		</div>
+		
+		<script type="text/javascript">
+			
+			// 获取音乐文件对象
+			var mp3 = document.getElementById("music");
+			var playBtn = document.querySelector(".btn-play");
+			var image = document.querySelector(".image img");
+			var range = document.querySelector(".music-info input");
+			var time = document.querySelector(".music-info p");
+			var t = null;
+			
+			playBtn.onclick = function(){
+				
+				if(mp3.paused){
+					mp3.play();
+					this.className = "btn btn-pause";
+					image.style.webkitAnimationPlayState = "running";
+					t = setInterval(showProgress,1000);
+				}else{
+					mp3.pause();
+					this.className = "btn btn-play";
+					image.style.webkitAnimationPlayState = "paused";
+					clearInterval(t);
+				}
+				
+				
+			}
+			
+			
+			function showProgress(){
+				
+				var total = mp3.duration;
+				var current = mp3.currentTime;
+				range.value = current/total *100;
+				
+				var cm = Math.floor(current/60);
+				var cs = Math.floor(current%60);
+				var tm = Math.floor(total/60);
+				var ts = Math.floor(total%60);
+				
+				cm = cm<10?'0'+cm:cm;
+				cs = cs<10?'0'+cs:cs;
+				tm = tm<10?'0'+tm:tm;
+				ts = ts<10?'0'+ts:ts;
+				
+				time.innerText = cm+":"+cs+"/"+tm+":"+ts;
+			}
+			
+			
+			
+			//t = setInterval(showProgress,1000);
+			
+			
+			// 播放
+//			var t= setTimeout(function(){
+//				mp3.play();
+//			},5000);
+			
+			
+//			var t2 = setTimeout(function(){
+//				// 暂停
+////				mp3.pause();
+//				// 暂停状态
+//				console.log(mp3.paused);
+//				// 总时长
+//				console.log(mp3.duration);
+//				// 当前的进度
+//				console.log(mp3.currentTime);
+//				
+//			},5000);
+			
+			
+			
+			
+			
+		</script>
+		
+	</body>
+</html>
